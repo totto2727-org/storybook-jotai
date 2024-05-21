@@ -26,7 +26,8 @@ import { atom, PrimitiveAtom, useStore } from "jotai";
  * ```tsx:JotaiButton.stories.tsx
  * import type { Meta, StoryObj } from "@storybook/react";
  * import { JotaiButton, stateAtom } from "./JotaiButton";
- * import { useAtomArgs } from "./useAtomArgs";
+ * import { useArgsWithAtoms } from "@totto/storybook-jotai";
+
  *
  * const meta = {
  *   title: "JotaiButton",
@@ -45,7 +46,7 @@ import { atom, PrimitiveAtom, useStore } from "jotai";
  * export const Primary: Story = {
  *   args: { state: true },
  *   decorators: (Story) => {
- *     useAtomArgs([[stateAtom, "state"]]);
+ *     useArgsWithAtoms([[stateAtom, "state"]]);
  *     return <Story />;
  *   },
  * };
