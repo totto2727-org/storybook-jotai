@@ -1,0 +1,15 @@
+{
+  "name": "@totto/storybook-jotai",
+  "version": "0.1.0",
+  "lock": false,
+  "exclude": [
+    "./.history/*"
+  ],
+  "exports": {
+    ".": "./useArgsWithAtoms.ts"
+  },
+  "imports": {
+    "@storybook/preview-api": "npm:@storybook/preview-api@^8.1.1",
+    "jotai": "npm:jotai@^2.8.0"
+  }
+}
