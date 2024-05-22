@@ -1,9 +1,6 @@
 import type { Decorator } from "@storybook/react";
 import { useSyncArgsAndAtoms, type AtomsWithName } from "./useArgsWithAtoms.ts";
 // @deno-types="@types/react"
-// deno-lint-ignore verbatim-module-syntax
-import React from "react";
-// @deno-types="@types/react"
 import type { PropsWithChildren } from "react";
 import { useArgs } from "@storybook/preview-api";
 import { Provider as JotaiProvider } from "jotai";
