@@ -1,67 +1,18 @@
-import { useArgs, useEffect, useMemo } from "@storybook/preview-api";
-import { atom, PrimitiveAtom, useStore } from "jotai";
+import { atom, type PrimitiveAtom, useStore } from "jotai";
+// @deno-types="@types/react"
+import { useEffect, useMemo } from "react";
+import type { useArgs } from "@storybook/preview-api";
 
 /**
- * @module
- *
- * ```tsx:JotaiButton.tsx
- * import { atom, useAtom } from 'jotai';
- *
- * export const stateAtom = atom(false)
- *
- * export const JotaiButton = () => {
- *   const [state,setState] = useAtom(stateAtom)
- *
- *   return (
- *     <button
- *       type="button"
- *       onClick={()=>setState(v=>!v)}
- *     >
- *       {state?"true":"false"}
- *     </button>
- *   );
- * };
- * ```
- *
- * ```tsx:JotaiButton.stories.tsx
- * import type { Meta, StoryObj } from "@storybook/react";
- * import { JotaiButton, stateAtom } from "./JotaiButton";
- * import { useArgsWithAtoms } from "@totto/storybook-jotai";
-
- *
- * const meta = {
- *   title: "JotaiButton",
- *   component: JotaiButton,
- *   parameters: {
- *     layout: "centered",
- *   },
- *   argTypes: {
- *     state: { control: "boolean" },
- *   },
- * } satisfies Meta<typeof JotaiButton>;
- *
- * export default meta;
- * type Story = StoryObj<typeof meta>;
- *
- * export const Primary: Story = {
- *   args: { state: true },
- *   decorators: (Story) => {
- *     useArgsWithAtoms([[stateAtom, "state"]]);
- *     return <Story />;
- *   },
- * };
- * ```
+ * Record of Atom
  */
-
-/**
- * Array of tuples of Atom and corresponding Args properties
- */
-export type AtomWithPropertyKey<T> = [PrimitiveAtom<T>, string | number];
+export type AtomsWithName<T> = Record<PropertyKey, PrimitiveAtom<T>>;
 
 /**
  * Hook to synchronize Jotai's Atom and Storybook Args
  *
- * @param atoms Array of tuples of Atom and corresponding Args properties
+ * @param atoms Record of atom with the same structure as args
+ * @param useArgsInstance Return value of useArgs
  *
  * @example
  *
@@ -69,47 +20,58 @@ export type AtomWithPropertyKey<T> = [PrimitiveAtom<T>, string | number];
  * export const Primary: Story = {
  *   args: { state: true },
  *   decorators: (Story) => {
- *     useAtomArgs([[stateAtom, "state"]]);
+ *     const useArgsReturnValues = useArgs();
+ *     useArgsWithAtoms({ "state": stateAtom }, useArgsReturnValues);
  *     return <Story />;
  *   },
  * };
  * ```
  */
-export function useArgsWithAtoms<T>(atoms: AtomWithPropertyKey<T>[]): void {
-  const [args, updateArgs] = useArgs();
-
+export function useSyncArgsAndAtoms<T>(
+  atoms: AtomsWithName<T>,
+  [args, updateArgs]: ReturnType<typeof useArgs>,
+): void {
   const store = useStore();
 
   // Atomization of Args
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const argAtom = useMemo(() => atom(args), []);
+  const argAtom = useMemo(() => atom(args), [args]);
+
+  const argsKey = useMemo(() => Object.keys(args), [args]);
 
   // Synchronization of argsAtom and args
   useEffect(() => {
+    console.log(1);
     store.set(argAtom, args);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [args]);
+  }, [argAtom, args, store]);
 
   // Detect changes in Atom and make Args follow
   useEffect(() => {
-    atoms.forEach(([atom, name]) => {
+    console.log(2);
+    const unmounts = argsKey.map((key) => {
+      const atom = atoms[key];
+
       return store.sub(atom, () => {
         const v = store.get(atom);
         const args = store.get(argAtom);
-        if (store.get(atom) !== args[name]) {
-          updateArgs({ [name]: v });
+
+        if (store.get(atom) !== args[key]) {
+          updateArgs({ [key]: v });
         }
       });
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
+    return () => unmounts.forEach((f) => f());
+  }, [argAtom, argsKey, atoms, store, updateArgs]);
 
   // Apply Args changes to Atom
   useEffect(() => {
-    atoms.forEach(([atom, name]) => {
-      if (store.get(atom) !== args[name]) {
-        store.set(atom, args[name]);
+    console.log(3);
+    argsKey.forEach((key) => {
+      const atom = atoms[key];
+
+      if (store.get(atom) !== args[key]) {
+        store.set(atom, args[key]);
       }
     });
-  });
+  }, [args, argsKey, atoms, store]);
 }
