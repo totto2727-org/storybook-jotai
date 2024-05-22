@@ -6,10 +6,13 @@
     "./.history/*"
   ],
   "exports": {
-    ".": "./useArgsWithAtoms.ts"
+    ".": "./mod.ts"
   },
   "imports": {
     "@storybook/preview-api": "npm:@storybook/preview-api@^8.1.1",
-    "jotai": "npm:jotai@^2.8.0"
+    "@storybook/react": "npm:@storybook/react@^8.1.1",
+    "@types/react": "npm:@types/react@^18.3.2",
+    "jotai": "npm:jotai@^2.8.0",
+    "react": "npm:react@^18.3.1"
   }
 }
