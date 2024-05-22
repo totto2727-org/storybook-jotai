@@ -14,41 +14,28 @@ bux jsr add @totto/storybook-jotai
 ```
 
 ```ts
-import { useArgsWithAtoms } from "@totto/storybook-jotai";
+import { jotaiDecolator } from "@totto/storybook-jotai";
 ```
 
 ## Example
 
-### JotaiButton.ts
+### Story Units
 
 ```tsx
-import { atom, useAtom } from 'jotai';
-
-export const stateAtom = atom(false)
-
-export const JotaiButton = () => {
-  const [state,setState] = useAtom(stateAtom)
-
-  return (
-    <button
-      type="button"
-      onClick={()=>setState(v=>!v)}
-    >
-      {state?"true":"false"}
-    </button>
-  );
+export const Primary: Story = {
+  args: { state: true },
+  parameters: {
+    jotai: { state: stateAtom },
+  },
+  decorators: jotaiDecolator,
 };
 ```
 
-### JotaiButton.stories.ts
+### Meta Units
 
 ```tsx
-import type { Meta, StoryObj } from "@storybook/react";
-import { JotaiButton, stateAtom } from "./JotaiButton";
-import { useArgsWithAtoms } from "@totto/storybook-jotai";
-
 const meta = {
-  title: "JotaiButton",
+  title: "Example/JotaiButton",
   component: JotaiButton,
   parameters: {
     layout: "centered",
@@ -56,6 +43,7 @@ const meta = {
   argTypes: {
     state: { control: "boolean" },
   },
+  decorators: jotaiDecolator,
 } satisfies Meta<typeof JotaiButton>;
 
 export default meta;
@@ -63,12 +51,25 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: { state: true },
-  decorators: (Story) => {
-    useArgsWithAtoms([[stateAtom, "state"]]);
-    return <Story />;
+  parameters: {
+    jotai: { state: stateAtom },
   },
 };
 ```
+
+### Global
+
+````tsx
+import React from 'react';
+
+import { Preview } from '@storybook/react';
+
+const preview: Preview = {
+  decorators: [ jotaiDecolator ],
+};
+
+export default preview;
+``
 
 ## For Developpers
 
@@ -82,7 +83,7 @@ The version is [.mise.toml](./.mise.toml).
 deno link
 deno fmt
 deno check
-```
+````
 
 ### Deploy
 
