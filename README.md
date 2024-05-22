@@ -17,6 +17,10 @@ bux jsr add @totto/storybook-jotai
 import { jotaiDecolator } from "@totto/storybook-jotai";
 ```
 
+Add the following components to your project.
+
+[jotaiDecolator.tsx](./jotaiDecolator.tsx)
+
 ## Example
 
 ### Story Units
