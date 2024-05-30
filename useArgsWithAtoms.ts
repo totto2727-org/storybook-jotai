@@ -40,13 +40,11 @@ export function useSyncArgsAndAtoms<T>(
 
   // Synchronization of argsAtom and args
   useEffect(() => {
-    console.log(1);
     store.set(argAtom, args);
   }, [argAtom, args, store]);
 
   // Detect changes in Atom and make Args follow
   useEffect(() => {
-    console.log(2);
     const unmounts = argsKey.map((key) => {
       const atom = atoms[key];
 
@@ -65,7 +63,6 @@ export function useSyncArgsAndAtoms<T>(
 
   // Apply Args changes to Atom
   useEffect(() => {
-    console.log(3);
     argsKey.forEach((key) => {
       const atom = atoms[key];
 

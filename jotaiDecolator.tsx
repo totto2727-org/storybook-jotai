@@ -1,5 +1,5 @@
 import type { Decorator } from "@storybook/react";
-import { useSyncArgsAndAtoms, type AtomsWithName } from "./useArgsWithAtoms.ts";
+import { type AtomsWithName, useSyncArgsAndAtoms } from "./useArgsWithAtoms.ts";
 // @deno-types="@types/react"
 import type { PropsWithChildren } from "react";
 import { useArgs } from "@storybook/preview-api";
@@ -12,7 +12,7 @@ function SyncArgsAndAtoms<T>(
   props: {
     atoms: AtomsWithName<T>;
     useArgsReturnValues: ReturnType<typeof useArgs>;
-  } & PropsWithChildren
+  } & PropsWithChildren,
 ) {
   useSyncArgsAndAtoms(props.atoms, props.useArgsReturnValues);
   return props.children;
