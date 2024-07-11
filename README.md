@@ -63,17 +63,17 @@ export const Primary: Story = {
 
 ### Global
 
-````tsx
-import React from 'react';
+```tsx
+import React from "react";
 
-import { Preview } from '@storybook/react';
+import { Preview } from "@storybook/react";
 
 const preview: Preview = {
-  decorators: [ jotaiDecolator ],
+  decorators: [jotaiDecolator],
 };
 
 export default preview;
-``
+```
 
 ## For Developpers
 
@@ -84,13 +84,8 @@ The version is [.mise.toml](./.mise.toml).
 ### Check
 
 ```bash
-deno link
+deno lint
 deno fmt
-deno check
-````
-
-### Deploy
-
-```bash
-deno deploy
+deno check **/*.ts
 ```
+
