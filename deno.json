@@ -1,6 +1,6 @@
 {
   "name": "@totto/storybook-jotai",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "lock": false,
   "exclude": [
     "./.history/*"
