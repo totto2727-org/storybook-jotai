@@ -1,2 +1,2 @@
-// export * from "./jotaiDecolator.tsx";
+// export * from "./jotaiDecorator.tsx";
 export * from "./useArgsWithAtoms.ts";

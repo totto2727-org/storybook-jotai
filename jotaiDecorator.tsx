@@ -31,7 +31,7 @@ function SyncArgsAndAtoms<T>(
  *   parameters: {
  *     jotai: { state: stateAtom },
  *   },
- *   decorators: jotaiDecolator,
+ *   decorators: jotaiDecorator,
  * };
  * ```
  *
@@ -47,7 +47,7 @@ function SyncArgsAndAtoms<T>(
  *   argTypes: {
  *     state: { control: "boolean" },
  *   },
- *   decorators: jotaiDecolator,
+ *   decorators: jotaiDecorator,
  * } satisfies Meta<typeof JotaiButton>;
  *
  * export default meta;
@@ -70,14 +70,14 @@ function SyncArgsAndAtoms<T>(
  *
  * const preview: Preview = {
  *   decorators: [
- *     decorators: [ jotaiDecolator ],
+ *     decorators: [ jotaiDecorator ],
  *   ],
  * };
  *
  * export default preview;
  * ```
  */
-export const jotaiDecolator: Decorator = function JotaiDecolator(Story, ctx) {
+export const jotaiDecorator: Decorator = function JotaiDecorator(Story, ctx) {
   const atoms = ctx?.parameters?.jotai ?? {};
   const useArgsReturnValues = useArgs();
 

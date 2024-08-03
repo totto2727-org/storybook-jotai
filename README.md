@@ -14,12 +14,12 @@ bux jsr add @totto/storybook-jotai
 ```
 
 ```ts
-import { jotaiDecolator } from "@totto/storybook-jotai";
+import { jotaiDecorator } from "@totto/storybook-jotai";
 ```
 
 Add the following components to your project.
 
-[jotaiDecolator.tsx](./jotaiDecolator.tsx)
+[jotaiDecorator.tsx](./jotaiDecorator.tsx)
 
 ## Example
 
@@ -31,7 +31,7 @@ export const Primary: Story = {
   parameters: {
     jotai: { state: stateAtom },
   },
-  decorators: jotaiDecolator,
+  decorators: jotaiDecorator,
 };
 ```
 
@@ -47,7 +47,7 @@ const meta = {
   argTypes: {
     state: { control: "boolean" },
   },
-  decorators: jotaiDecolator,
+  decorators: jotaiDecorator,
 } satisfies Meta<typeof JotaiButton>;
 
 export default meta;
@@ -69,7 +69,7 @@ import React from "react";
 import { Preview } from "@storybook/react";
 
 const preview: Preview = {
-  decorators: [jotaiDecolator],
+  decorators: [jotaiDecorator],
 };
 
 export default preview;
@@ -88,4 +88,3 @@ deno lint
 deno fmt
 deno check **/*.ts
 ```
-
